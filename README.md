@@ -1,3 +1,3 @@
-SAP/ABAP Youtube Eğitim Serisi
-SAP/ABAP Proje Dosyaları  
-SAP/ABAP konu anlatımları notlar
+SAP/ABAP Ödevler
+SAP/ABAP code example
+SAP/ABAP Tasks
