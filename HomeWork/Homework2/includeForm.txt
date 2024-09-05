@@ -1,0 +1,149 @@
+*&---------------------------------------------------------------------*
+*& Include          ZABAP_EGT_HW_002_FORM
+*&---------------------------------------------------------------------*
+FORM insertogr.
+  CONSTANTS: c_range_no     TYPE inri-nrrangenr VALUE '01',
+             c_range_object TYPE inri-object VALUE 'ZCUS_NO'.
+  DATA: lv_next_number(50).
+  DATA: lv_padded_number    TYPE n LENGTH 7,  " Numaranın 7 karakterlik hali
+        lv_formatted_number TYPE string.   " CUS0000001 formatlı hali
+
+  CALL FUNCTION 'NUMBER_GET_NEXT'
+    EXPORTING
+      nr_range_nr             = c_range_no "'01'
+      object                  = c_range_object "'ZABAP_ONO'
+    IMPORTING
+      number                  = gs_ogr-ogr_no
+    EXCEPTIONS
+      interval_not_found      = 1
+      number_range_not_intern = 2
+      object_not_found        = 3
+      quantity_is_0           = 4
+      quantity_is_not_1       = 5
+      interval_overflow       = 6
+      buffer_overflow         = 7
+      OTHERS                  = 8.
+
+
+  INSERT INTO zfurkan_t_lib_o VALUES gs_ogr.
+  MESSAGE i006(zfurkan_hw) WITH 'Öğrenci' DISPLAY LIKE 'S'.
+ENDFORM.
+
+FORM insertkitap.
+
+  SELECT SINGLE * FROM zfurkan_t_lib_y WHERE yazar_no = p_yzno.
+
+  IF sy-subrc EQ 0.
+    CALL FUNCTION 'NUMBER_GET_NEXT'
+      EXPORTING
+        nr_range_nr             = '01'
+        object                  = 'ZABAP_KNO'
+        quantity                = '5'
+      IMPORTING
+        number                  = gs_kit-kitap_no
+      EXCEPTIONS
+        interval_not_found      = 1
+        number_range_not_intern = 2
+        object_not_found        = 3
+        quantity_is_0           = 4
+        quantity_is_not_1       = 5
+        interval_overflow       = 6
+        buffer_overflow         = 7
+        OTHERS                  = 8.
+    INSERT INTO zfurkan_t_lib_b VALUES gs_kit.
+    MESSAGE i006(zfurkan_hw) WITH 'Kitap' DISPLAY LIKE 'S'.
+
+  ELSE.
+    MESSAGE TEXT-007 TYPE 'I' DISPLAY LIKE 'E'.
+
+  ENDIF.
+
+
+ENDFORM.
+
+FORM insertyazar.
+
+  CALL FUNCTION 'NUMBER_GET_NEXT'
+    EXPORTING
+      nr_range_nr             = '01'
+      object                  = 'ZABAP_YNO'
+      quantity                = '2'
+    IMPORTING
+      number                  = gs_yaz-yazar_no
+    EXCEPTIONS
+      interval_not_found      = 1
+      number_range_not_intern = 2
+      object_not_found        = 3
+      quantity_is_0           = 4
+      quantity_is_not_1       = 5
+      interval_overflow       = 6
+      buffer_overflow         = 7
+      OTHERS                  = 8.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+  INSERT INTO zfurkan_t_lib_y VALUES gs_yaz.
+  MESSAGE i006(zfurkan_hw) WITH 'Yazar' DISPLAY LIKE 'S'.
+
+ENDFORM.
+
+FORM insertislem.
+
+
+  SELECT SINGLE * FROM zfurkan_t_lib_b WHERE kitap_no = p_kitno.
+  IF sy-subrc EQ 0.
+
+    SELECT SINGLE * FROM zfurkan_t_lib_o INTO wa_tabog WHERE ogr_no = p_ogno AND puan > 55.
+
+    IF sy-subrc EQ 0.
+      CALL FUNCTION 'NUMBER_GET_NEXT'
+        EXPORTING
+          nr_range_nr             = '01'
+          object                  = 'ZABAP_INO'
+          quantity                = '2'
+        IMPORTING
+          number                  = gs_ism-islem_no
+        EXCEPTIONS
+          interval_not_found      = 1
+          number_range_not_intern = 2
+          object_not_found        = 3
+          quantity_is_0           = 4
+          quantity_is_not_1       = 5
+          interval_overflow       = 6
+          buffer_overflow         = 7
+          OTHERS                  = 8.
+      IF sy-subrc <> 0.
+
+      ENDIF.
+
+      INSERT INTO zfurkan_t_lib_i VALUES gs_ism.
+      MESSAGE TEXT-009 TYPE 'I' DISPLAY LIKE 'S'.
+    ELSE.
+      MESSAGE 'Puanınız düşük.' TYPE 'I' DISPLAY LIKE 'E'.
+    ENDIF.
+  ELSE.
+    MESSAGE 'Kitap numaranız uyuşmuyor' TYPE 'I' DISPLAY LIKE 'E'.
+  ENDIF.
+
+
+ENDFORM.
+
+FORM prg_result.
+
+  CASE 'X'.
+    WHEN p_add.
+      IF p_oncbx EQ abap_true.
+        PERFORM insertogr.
+      ELSEIF p_kcbx EQ abap_true.
+        PERFORM insertkitap.
+      ELSEIF p_ycbx EQ abap_true.
+        PERFORM insertyazar.
+      ENDIF.
+    WHEN p_rent.
+      IF p_icbx EQ abap_true.
+        PERFORM insertislem.
+      ENDIF.
+  ENDCASE.
+
+ENDFORM.

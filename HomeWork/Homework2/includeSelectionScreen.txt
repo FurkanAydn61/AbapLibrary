@@ -1,0 +1,184 @@
+*&---------------------------------------------------------------------*
+*& Include          ZABAP_EGT_HW_002_SSCR
+*&---------------------------------------------------------------------*
+
+INITIALIZATION.
+******Uygulamanın başında kapalı gelmesini sağladık**********
+  LOOP AT SCREEN.
+    IF screen-group1 = 'M1' OR screen-group1 = 'M2' OR screen-group1 = 'M3' OR screen-group1 = 'M4'.
+      screen-active = 0.
+      MODIFY SCREEN.
+    ENDIF.
+  ENDLOOP.
+
+START-OF-SELECTION.
+
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_ogno.
+***** Öğrenci Numarası için Search Help Fonksiyonu ********
+  SELECT
+    zftlo~ogr_no
+    zftlo~ogr_ad
+    zftlo~ogr_syd
+    zftlo~puan
+    FROM zfurkan_t_lib_o AS zftlo
+    INTO TABLE gt_listo.
+
+  CALL FUNCTION 'F4IF_INT_TABLE_VALUE_REQUEST'
+    EXPORTING
+      retfield        = 'OGR_NO'
+      dynpprog        = sy-repid
+      dynpnr          = sy-dynnr
+      dynprofield     = 'P_OGNO'
+      value_org       = 'S'
+    TABLES
+      value_tab       = gt_listo
+      return_tab      = gt_return_tab
+    EXCEPTIONS
+      parameter_error = 1
+      no_values_found = 2
+      OTHERS          = 3.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_kitno.
+********* Kitap Numarası için Search Help Fonksiyonu************
+  SELECT
+    zftlb~kitap_no
+    zftlb~kitap_ad
+    FROM zfurkan_t_lib_b AS zftlb
+    INTO TABLE gt_listb.
+
+
+  CALL FUNCTION 'F4IF_INT_TABLE_VALUE_REQUEST'
+    EXPORTING
+      retfield        = 'KITAP_NO'
+      dynpprog        = sy-repid
+      dynpnr          = sy-dynnr
+      dynprofield     = 'P_KITNO'
+      value_org       = 'S'
+    TABLES
+      value_tab       = gt_listb
+      return_tab      = gt_rtab
+*     DYNPFLD_MAPPING =
+    EXCEPTIONS
+      parameter_error = 1
+      no_values_found = 2
+      OTHERS          = 3.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_yzno.
+**************** Yazar Numarası İçin Search Help Fonksiyonu*********
+  SELECT
+    zfurkan_t_lib_y~yazar_no
+    zfurkan_t_lib_y~yazar_ad
+    zfurkan_t_lib_y~yazar_syd
+    FROM zfurkan_t_lib_y INTO TABLE gt_listy.
+
+
+  CALL FUNCTION 'F4IF_INT_TABLE_VALUE_REQUEST'
+    EXPORTING
+      retfield        = 'YAZAR_NO'
+      dynpprog        = sy-repid
+      dynpnr          = sy-dynnr
+      dynprofield     = 'P_YZNO'
+      value_org       = 'S'
+    TABLES
+      value_tab       = gt_listy
+      return_tab      = gt_tret
+*     DYNPFLD_MAPPING =
+    EXCEPTIONS
+      parameter_error = 1
+      no_values_found = 2
+      OTHERS          = 3.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+
+
+AT SELECTION-SCREEN OUTPUT.
+
+  LOOP AT SCREEN.
+    CASE 'X'.
+      WHEN p_oncbx.
+        IF screen-group1 EQ 'M2' OR screen-group1 EQ 'M3' OR screen-group1 EQ 'M4' OR screen-name CS 'P_OGNO'.
+          screen-active = 0.
+        ENDIF.
+        MODIFY SCREEN.
+      WHEN p_icbx.
+        IF screen-group1 EQ 'M3' OR screen-name CS 'P_OGNO' OR screen-name CS 'P_KITNO'.
+          screen-active = 1.
+          IF  screen-name CS 'P_ISLNO'.
+            screen-active = 0.
+          ENDIF.
+        ELSEIF screen-group1 EQ 'M1' OR  screen-group1 EQ 'M2' OR screen-group1 EQ 'M4'.
+          screen-active = 0.
+        ENDIF.
+        MODIFY SCREEN.
+      WHEN p_kcbx.
+        IF screen-group1 EQ 'M2'.
+          screen-active = 1.
+          IF screen-name CS 'P_KITNO'.
+            screen-active = 0.
+          ENDIF.
+        ELSEIF screen-group1 EQ 'M1' OR screen-group1 EQ 'M3' OR  screen-group1 EQ 'M4'.
+          screen-active = 0.
+        ENDIF.
+        MODIFY SCREEN.
+      WHEN p_ycbx.
+        IF screen-group1 EQ 'M4'.
+          screen-active = 1.
+        ELSEIF screen-group1 EQ 'M1' OR screen-group1 EQ 'M2' OR screen-group1 EQ 'M3'.
+          screen-active = 0.
+        ENDIF.
+        MODIFY SCREEN.
+    ENDCASE.
+  ENDLOOP.
+
+AT SELECTION-SCREEN.
+
+  gs_ogr-ogr_ad = p_ogad.
+  gs_ogr-ogr_syd = p_ogsy.
+  gs_ogr-ogr_cns = p_cns.
+  gs_ogr-dtarih = p_dtr.
+  gs_ogr-sinif = p_snf.
+  gs_ogr-puan = p_puan.
+
+  gs_kit-isb_no = p_ısbno.
+  gs_kit-kitap_ad = p_kitad.
+  gs_kit-yazar_no = p_yzno.
+  gs_kit-turno = p_trno.
+  gs_kit-ssayisi = p_sayfa.
+  gs_kit-puan_k = p_point.
+
+  gs_yaz-yazar_ad = p_yazad.
+  gs_yaz-yazar_syd = p_yazsyd.
+
+  gs_ism-ogr_no = p_ogno.
+  gs_ism-kitap_no = p_kitno.
+  gs_ism-atarih = p_atarih.
+  gs_ism-vtarih = p_vtarih.
+
+
+  CASE sy-ucomm.
+    WHEN 'USR1'.
+      p_oncbx = abap_true.
+      CLEAR: p_icbx,p_kcbx,p_ycbx.
+    WHEN 'USR2'.
+      p_icbx = abap_true.
+      CLEAR: p_oncbx,p_kcbx,p_ycbx.
+    WHEN 'USR3'.
+      p_kcbx = abap_true.
+      CLEAR: p_icbx,p_oncbx,p_ycbx.
+    WHEN 'USR4'.
+      p_ycbx = abap_true.
+      CLEAR: p_icbx,p_kcbx,p_oncbx.
+  ENDCASE.
+
+END-OF-SELECTION.
+
+  PERFORM prg_result.

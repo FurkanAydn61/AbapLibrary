@@ -1,0 +1,5 @@
+REPORT ZABAP_EGT_HW_002.
+
+INCLUDE zabap_egt_hw_002_top.
+INCLUDE zabap_egt_hw_002_sscr.
+INCLUDE zabap_egt_hw_002_form.

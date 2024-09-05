@@ -1,0 +1,111 @@
+*&---------------------------------------------------------------------*
+*& Include          ZABAP_EGT_HW_002_TOP
+*&---------------------------------------------------------------------*
+SELECTION-SCREEN BEGIN OF BLOCK bl0 WITH FRAME TITLE TEXT-001.
+PARAMETERS: p_oncbx AS CHECKBOX USER-COMMAND usr1,
+            p_icbx  AS CHECKBOX USER-COMMAND usr2,
+            p_kcbx  AS CHECKBOX USER-COMMAND usr3,
+            p_ycbx  AS CHECKBOX USER-COMMAND usr4.
+SELECTION-SCREEN END OF BLOCK bl0.
+
+SELECTION-SCREEN SKIP 1.
+
+SELECTION-SCREEN BEGIN OF BLOCK bl1 WITH FRAME TITLE TEXT-002.
+PARAMETERS:p_ogno TYPE zfurkan_de_ogrnno MODIF ID m1,
+           p_ogad TYPE zfurkan_de_ograd MODIF ID m1,
+           p_ogsy TYPE zfurkan_de_ogrsoyad MODIF ID m1,
+           p_cns  TYPE zfurkan_de_ogrcins MODIF ID m1,
+           p_dtr  TYPE zfurkan_de_dtarih MODIF ID m1,
+           p_snf  TYPE zfurkan_de_ogrsinif MODIF ID m1,
+           p_puan TYPE zfurkan_de_puan MODIF ID m1.
+SELECTION-SCREEN END OF BLOCK bl1.
+
+SELECTION-SCREEN SKIP 1.
+
+SELECTION-SCREEN BEGIN OF BLOCK bl2 WITH FRAME TITLE TEXT-003.
+PARAMETERS: p_kitno TYPE zfurkan_de_kitapno MODIF ID m2 ,
+            p_ısbno TYPE zfurkan_de_isbno MODIF ID m2,
+            p_kitad TYPE zfurkan_de_kitapad MODIF ID m2,
+            p_yzno  TYPE zfurkan_de_yazarno MODIF ID m2,
+            p_trno  TYPE zfurkan_de_tno MODIF ID m2,
+            p_sayfa TYPE zfurkan_de_sayfasayisi MODIF ID m2,
+            p_point TYPE zfurkan_de_puan MODIF ID m2.
+
+SELECTION-SCREEN END OF BLOCK bl2.
+
+SELECTION-SCREEN BEGIN OF BLOCK bl3 WITH FRAME TITLE TEXT-003.
+PARAMETERS: p_islno  TYPE zfurkan_de_islemno MODIF ID m3,
+            p_atarih TYPE zfurkan_de_atarih MODIF ID m3,
+            p_vtarih TYPE zfurkan_de_vtarih MODIF ID m3.
+SELECTION-SCREEN END OF BLOCK bl3.
+
+SELECTION-SCREEN SKIP 1.
+
+SELECTION-SCREEN BEGIN OF BLOCK bl4 WITH FRAME TITLE TEXT-004.
+PARAMETERS:p_yazad  TYPE zfurkan_de_yazarad MODIF ID m4,
+           p_yazsyd TYPE zfurkan_de_yazarsoyad MODIF ID m4.
+SELECTION-SCREEN END OF BLOCK bl4.
+
+SELECTION-SCREEN BEGIN OF BLOCK bl5 WITH FRAME TITLE TEXT-005.
+PARAMETERS: p_add  RADIOBUTTON GROUP gr1 USER-COMMAND rg1,
+            p_rent RADIOBUTTON GROUP gr1.
+SELECTION-SCREEN END OF BLOCK bl5.
+
+TABLES: zfurkan_t_lib_y,
+        zfurkan_t_lib_b,
+        zfurkan_t_lib_o,
+        zfurkan_t_lib_i.
+
+
+***********Öğrenci Types Search Help Fonksiyonu için*********
+
+TYPES: BEGIN OF gty_listo,
+       OGR_NO TYPE ZFURKAN_DE_OGRNNO,
+       OGR_AD TYPE ZFURKAN_DE_OGRAD,
+       OGR_SYD TYPE ZFURKAN_DE_OGRSOYAD,
+       PUAN TYPE ZFURKAN_DE_PUAN,
+       END OF gty_listo.
+***********************************************************
+
+**************Kitap Types Search Help Fonksiyonu için*********
+TYPES : BEGIN OF gty_listb,
+        KITAP_NO TYPE ZFURKAN_DE_KITAPNO,
+        KITAP_AD TYPE ZFURKAN_DE_KITAPAD,
+
+        END OF gty_listb.
+****************************************************************
+************** Yazar Types Search Help Fonksiyonu için********
+TYPES: BEGIN OF gty_listy,
+       YAZAR_NO TYPE ZFURKAN_DE_YAZARNO,
+       YAZAR_AD TYPE ZFURKAN_DE_YAZARAD,
+       YAZAR_SYD TYPE ZFURKAN_DE_YAZARSOYAD,
+       END OF gty_listy.
+
+DATA: gt_listo TYPE TABLE OF gty_listo,
+      gt_return_tab TYPE TABLE OF DDSHRETVAL.
+
+
+DATA: gt_listb TYPE TABLE OF gty_listb,
+      gt_rtab TYPE TABLE OF DDSHRETVAL.
+
+DATA: gt_listy TYPE TABLE OF gty_listy,
+      gt_tret TYPE TABLE OF DDSHRETVAL.
+
+
+DATA: gt_ogr TYPE TABLE OF ZFURKAN_T_LIB_O,
+      gs_ogr TYPE ZFURKAN_T_LIB_O.
+
+DATA: gt_kit TYPE TABLE OF zfurkan_t_lib_b,
+      gs_kit TYPE zfurkan_t_lib_b.
+
+DATA: gt_yaz TYPE TABLE OF ZFURKAN_T_LIB_Y,
+      gs_yaz TYPE ZFURKAN_T_LIB_Y.
+
+DATA: gt_ism TYPE TABLE OF ZFURKAN_T_LIB_I,
+      gs_ism TYPE ZFURKAN_T_LIB_I.
+
+********* SELECT SINGLE ifadelerini kullanmak için tabloların bir satırını depolamak için kullandık.*********
+DATA: wa_tabog TYPE zfurkan_t_lib_o,
+      wa_tabbo TYPE zfurkan_t_lib_b.
+
+DATA: wa_tabst TYPE zfurkan_t_lib_o.
