@@ -1,0 +1,65 @@
+-VERİ
+
+-Ham gerçeklerden ,resimlerden ve rakamlardan oluşan bir koleksiyondur.
+-İşlenmemiş, yorumlanmamış, değerlendirilmemiş özellikler.
+-Tek başına bir anlam ifade etmeyen varlık özellikleri.
+-Veriler dosyalarda veya veri tabanlarında saklanabilir.
+
+-BİLGİ(Information)
+
+-Verilerin yorumlanmaya uygun bir biçimde sunulması,
+-Bilgi, dosyalarda veya veri tabanlarında saklanamaz.
+
+-KNOWLEDGE(Yorumlanmış Bilgi)
+
+-Yorumlanan verilere(bilgi) dayalı olarak uygun eylemlere ilişkin bilgiler.
+
+
+
+Database - Database Management System
+
+-Veriyi saklayabildiğimiz , sakladığımız veriye ulaşabildiğimiz ve güncelleyebildiğimiz her ortam veri tabanıdır.
+-Disk üzerinde , verilerin belirli bir hiyerarşi ile depolandığı dosyalardan oluşur.
+
+Database Management System
+
+-Bir veri tabanı oluşturmak ve yönetmek için kullanılan programlar koleksiyonudur.
+
+Görevi:
+
+- Veri tabanı Tanımlamak (Define - Create)
+
+- Veri Tabanı Yapılandırmak (Constrcut - Alter, Grant)
+
+-Veri Tabanı Sorgulamak (Query - Select)
+
+- Veri Tabanı Manipüle Etmek (Manipulate - Insert, Update, Delete)
+
+
+Veri Tabanı Temel İçerikleri:
+
+User Data: Kullanıcılar tarafından veri tabanına işlenene verilerdir.
+
+MetaData: Dosyaların , tabloların ,tablo alanlarının yapısı,
+Veri işleme ve sorgulama işlemlerinde görüntüleme ve biçimlendirme kuralları,
+Güvenlik ve erişim kuralları
+Tetikleyiciler ve operasyonel kurallar
+Veri tabanının kendisiyle ilgili bilgiler
+
+Veri tabanı kurulumuyla hazır gelir.
+
+Doğrudan güncellenemez, oluşturamaz, silinemez.
+
+Access Engine 
+
+-Bağımsız sorgu dili ve ara yüzleri. RDBMS ortak dil SQL.
+-DML gerçekleştirmek için programcı arayüzleri 
+Compiler,GUI, API Servis Tanımlayıcıları
+
+
+Tools Utilities
+
+Load Data: Harici bir ortamdan verilerin veritabanında yüklenmesi
+Backup/Recovery
+Upgrade
+Archive/Restory

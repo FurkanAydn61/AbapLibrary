@@ -1,0 +1,20 @@
+-SAP-ABAP BAPI KAVRAMI-
+
+SAP ABAP' ta BAPI, İş uygulaması programlama arayüzü anlamına gelir. BPAI' LER, SAP tarafından sağlanan ve harici uygulamaların veya programların SAP sistemleriyle iletişim kurmasına ve entegre olmasına olanak tanıyan standartlaştırılmış ara yüzlerdir.
+
+BAPI' lerin amacı:
+
+BAPI' ler, SAP sistemlerinde iş süreçlerine erişmek ve bunları yürütmek için standartlaştırılmış bir yol sağlar.
+
+İş işlevselliğini kapsülleyerek harici programların SAP iş nesneleriyle tutarlı bir şekilde etkileşime girmesini sağlarlar
+
+Standartlaştırma:
+BAPI'ler SAP tarafından tanımlanan bir dizi standarda bağlı kalarak farklı SAP modülleri ve sürümleri arasında tutarlılık ve istikrar sağlar.
+BAPI' ler uyumluluğu korumak için sürümlendirilir ve BAPI lerdeki değişiklikler mevcut uygulamlardaki aksaklıkları en aza indirmek için kontrol edilir.
+
+Kullanım:
+BAPI' ler SAP sistemlerinde hem veri okumak hem de yazmak için kullanılabilir.
+Genellikle SAP ve SAP dışı sistemler arasında veri alışverişi yapılması gereken entegrasyon senaryoları için kullanılır.
+
+
+BAPI ' ler veri tutarlılığını sağlamak için SAP Transactionlarına dahil edilebilirler.

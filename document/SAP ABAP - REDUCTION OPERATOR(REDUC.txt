@@ -1,0 +1,53 @@
+SAP ABAP - REDUCTION OPERATOR(REDUCE)
+
+ABAP ile tablolar arası hesaplamalar yaparken sık sık kullandığımız döngüler için bazı küçük alternatifler bulunmaktadır. Özellikle matematiksel işlemler için tablolar arası, veri hesaplamaları için döngülere büyük önemde bağlıyızdır. Ancak performans açısından olaya baktığımız zaman durum biraz farklılaşabiliyor. İç içe yaptığımız döngüler veya döngü sayısı arttıkça performans aynı oranda düşebiliyor. Bu gibi durumlarda, bazı matematiksel işlemler için tablo içerisinde ki veriyi kendi istediğimiz koşullara indirgeyerek istediğimiz tipte bir değer alınmasını sağlayan yapı bulunmaktadır. REDUCTION OPERATOR(REDUCE) anahtar kelimesi ile bir tablo içerisinde bir veya birden fazla koşula bağlı olan ve dönüş tipini istediğimiz bir tipe atayabileceğiniz kümülatif toplam değerlerini alabileceğiniz bir yapı sunmaktadır.
+
+*& Report ZFURKAN_REDUCTION
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zfurkan_reduction.
+
+
+TYPES: BEGIN OF y_malzeme_header,
+         uretim_yeri  TYPE werks_d,
+         malzeme_turu TYPE kschl,
+         fiyat        TYPE netwr,
+       END OF y_malzeme_header.
+
+DATA: lt_malzeme_header TYPE TABLE OF y_malzeme_header.
+
+lt_malzeme_header = VALUE #( ( uretim_yeri = '1000' malzeme_turu = 'AAAA' )
+                             ( uretim_yeri = '1000' malzeme_turu = 'BBBB' )
+                             ( uretim_yeri = '2000' malzeme_turu = 'CCCC' )
+                             ( uretim_yeri = '3000' malzeme_turu = 'DDDD' ) ).
+
+TYPES : BEGIN OF y_malzeme_detay,
+          uretim_yeri  TYPE werks_d,
+          malzeme_turu TYPE kschl,
+          malzeme      TYPE matnr,
+          fiyat        TYPE netwr,
+        END OF y_malzeme_detay.
+DATA : lt_malzeme_detay TYPE TABLE OF y_malzeme_detay.
+
+lt_malzeme_detay =
+  VALUE #(
+    ( uretim_yeri = '1000'  malzeme_turu = 'AAAA' malzeme = '0000000001' fiyat = '10.00'  )
+    ( uretim_yeri = '1000'  malzeme_turu = 'AAAA' malzeme = '0000000002' fiyat = '350.00' )
+    ( uretim_yeri = '1000'  malzeme_turu = 'BBBB' malzeme = '0000000003' fiyat = '2.00'   )
+    ( uretim_yeri = '2000'  malzeme_turu = 'CCCC' malzeme = '0000000004' fiyat = '3.50'   )
+    ( uretim_yeri = '2000'  malzeme_turu = 'CCCC' malzeme = '0000000005' fiyat = '400.00' )
+    ( uretim_yeri = '2000'  malzeme_turu = 'DDDD' malzeme = '0000000006' fiyat = '5.00'   )
+    ( uretim_yeri = '3000'  malzeme_turu = 'EEEE' malzeme = '0000000007' fiyat = '165.00' )
+    ( uretim_yeri = '3000'  malzeme_turu = 'FFFF' malzeme = '0000000008' fiyat = '98.00'  )
+    ( uretim_yeri = '3000'  malzeme_turu = 'AAAA' malzeme = '0000000009' fiyat = '28.00'  ) ).
+
+
+
+LOOP AT  lt_malzeme_header ASSIGNING FIELD-SYMBOL(<fs_header>).
+  <fs_header>-fiyat = REDUCE netwr( INIT val TYPE netwr "Dönüş değeri tipinin belirlenmesi
+                     FOR wa IN lt_malzeme_detay         "Değerin alınacağı tablonun belirtilmesi
+                   WHERE ( uretim_yeri  EQ <fs_header>-uretim_yeri "Koşul değerlerinin belirlenmesi
+                     AND   malzeme_turu EQ <fs_header>-malzeme_turu ) "Koşul değerlerinin belirlenmesi
+                    NEXT val = val + wa-fiyat ). "İlgili tabloda kümülatif toplamın alınacağı alanın belirlenmesi"
+ENDLOOP.

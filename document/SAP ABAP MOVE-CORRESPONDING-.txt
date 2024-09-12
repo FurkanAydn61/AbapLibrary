@@ -1,0 +1,42 @@
+SAP ABAP MOVE-CORRESPONDING-
+
+Abap'ta Move-CORRESPONDING ifadesi , benzer yapıya sahip iki veri yapısı arasındaki alanları adlarına göre eşleştirerek veri taşımak için kullanılır. Bu ifade özellikle i. içe geçmiş yapıların veya iç tabloların alan adlarına göre veri transferini kolaylaştırır. İç tablolar arasında da kullanılarak, satırların ilgi alanlarının adlarına göre taşınmasını sağlar.
+
+*&---------------------------------------------------------------------*
+*& Report ZFKN_MOVEC
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zfkn_movec.
+
+DATA: lt_scarr TYPE TABLE OF scarr,
+      lt_spfli TYPE TABLE OF spfli.
+
+START-OF-SELECTION.
+
+  SELECT * FROM scarr INTO TABLE lt_scarr.
+  SELECT * FROM spfli INTO TABLE lt_spfli.
+
+  CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+    EXPORTING
+      i_callback_program = sy-repid
+      i_structure_name   = 'SCARR'
+    TABLES
+      t_outtab           = lt_scarr.
+
+
+  CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+    EXPORTING
+      i_callback_program = sy-repid
+      i_structure_name   = 'SPFLI'
+    TABLES
+      t_outtab           = lt_spfli.
+
+  MOVE-CORRESPONDING lt_scarr TO lt_spfli KEEPING TARGET LINES.
+
+  CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+    EXPORTING
+      i_callback_program = sy-repid
+      i_structure_name   = 'SPFLI'
+    tables
+      t_outtab           = lt_spfli.

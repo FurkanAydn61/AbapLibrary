@@ -1,0 +1,13 @@
+-SAP-ABAP JOB KAVRAMI-
+
+Sap Abap' ta 'job ' kavramı, arka planda .çalışan işlemleri ifade eder. SAP sisteminde bir job, belirli bir zamanda veya belirli aralıklarla otomatik olarak çalışan program veya programlar kümesidir. Job, sistem kaynaklarını verimli bir şekilde kullanmak ve yoğun kullanıcı saatlerinde performansı artırmak için kullanılır.
+
+-Kullanım Alanlar-
+*Veri işleme
+*Raporlama
+*Bakım ve Destek
+*Entegrasyon
+
+Job Türleri
+*Background Jobs: Kullanıcı etkileşimi gerektirmeyen, belirli zamanlarda veya periyodik olarak çalışan işlerdir.
+*Online Jobs: Anında çalıştırılan ve genellikle kullanıcı etkileşimi gerektiren işlerdir.

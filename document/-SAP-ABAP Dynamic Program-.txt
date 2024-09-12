@@ -1,0 +1,16 @@
+-SAP-ABAP Dynamic Program-
+
+SAP ABAP' ta dinamik programlama, çalışma zamanında(runtime) programın yapısını ve davranışını değiştirme yeteneğini ifade eder.
+Bu programın belirli bölümlerinin kullanıcı girdilerine veya diğer diğer değişkenlere bağlı olarak dinamik olarak oluşturulması ve yürütülmesi anlamına gelir. Dinamik programlama, esneklik ve genellik sağlar ve belirli koşullara göre programın çalışma şeklini uyarlamayı mümkün kılar.
+
+-Dinamik Programlamanın Faydaları:
+
+*Esneklik: Programların kullanıcı girdilerine veya diğer değişkenlere göre dinamik olarak uyarlanmasını sağlar.
+
+* Yeniden Kullanılabilirlik: Genel ve tekrar kullanılabilir kod parçaları yazmayı kolaylaştırır.
+
+*Verimlilik: Kodun bakımını ve genişletilmesini kolaylaştırır, çünkü değişiklikler merkezi olarak yapılabilir.
+
+Dinamik programlama, SAP ABAP'ta daha esnek ve güçlü uygulamalar geliştirmek için önemli bir tekniktir.
+
+

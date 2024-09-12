@@ -1,0 +1,3 @@
+-SAP ABAP Super Keyword-
+
+SAP ABAP ' ta  'super' anahtar kelimesi, nesne yönelimli programlamada miras alınan sınıfın (üst sınıfın ) metotlarına erişmek için kullanılır. 'super' anahtar kelimesi, alt sınıftan çağrıldığında üst sınıftaki metodu veya özelliği belirtir ve böylece üst sınıfın orijinal işlevselliğini korur veya genişletir.

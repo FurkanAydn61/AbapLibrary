@@ -1,0 +1,10 @@
+-SAP-ABAP WEB SERVICE CONSUMER-
+
+SAP ABAP' ta bir Web Service Consumer (istemci), harici web servislerini SAP sistemi içerisinden tüketmek için kullanılır. Bu, SAP uygulamalarının internet veya internet üzerinden standart web servis protokollerini(SOAP veya REST ) kullanarak harici sistemler, hizmetler veya uygulamalarla etkileşimde bulunmasını sağlar.
+
+Amaçları ve Faydaları:
+
+-Entegrasyon: SAP VE SAP olmayan sistemler arasında entegrasyonu sağlar.
+-Veri Değişimi: Gerçek zamanlı veri değişimine olanak tanır.
+-Otomasyon: Farklı platformlar arasında iş süreçlerini otomatikleştirir.
+-Uyumluluk: Farklı teknoloji yığınlarıyla sorunsuz etkileşimi sağlar.

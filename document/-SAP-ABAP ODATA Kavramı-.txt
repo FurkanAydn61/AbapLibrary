@@ -1,0 +1,65 @@
+-SAP-ABAP ODATA Kavramı-
+
+Sap OData(Open Data Protocol), RESTFUL web servisleri ile veri erişimini kolaylaştıran bir protokoldür.OData, HTTP prtoolü üzerinden çalışan ve JSON veya XML formatlaında veri ileten bir servis türüdür.Sap OData'nın amacı,verilerin erişimini standard bir şekilde sağlamak ve diğer sistemlerle entegrasyonu kolaylaştırmaktır.
+
+SEGW işlem koduyla bir arayüz sayesinde oluşturulur.
+
+Sap Abap' ta Odata oluştururken kullanılan bazı temel terimler ve bunların işleleri şunlardır;
+
+Data Model:
+
+Data Model, OData hizmetinin veri yapısını ve ilişkilerini tanımlar .
+ 
+-Odata hizmetinin hangi verileri sunacağını ve bu verilerin nasıl ilişkili olduğunu tanımlar.
+-Entity Typesile veri nesneleri tanımlanır, Entity Sets ile b nesnelerin koleksiyonları tanımlanır.
+-Association ve Navigatin Properties ile veriler arasındaki ilişkler tanımlanır.
+
+-Service Implementation
+
+Service Implementation,OData hizmetinin CRUD(Create,Read,Update,Delete)işlemlerinin nasıl gerçekleştirliceğini tanımlar. Her Entity Type için CRUDoperasyonlarını gerçekleştirecek metotlar oluşturulur ve kodlanır
+
+-OData ghizmetinin veri işlemlerini nasıl gerçekleştireceğini belirler.
+-CRUD operasyonları için metotlar tanımlanır ve veri işelmelri burada kodlanır.
+
+Runtime Artifacts
+
+Runtime Artifact, OData hizmetinin çalışması için gerekli olan Abap nesneleridir. Bunlar, veri modelinizin servis implementasyonunuzun çalışması içi gerekli olan nesneleri içerir.
+
+-OData hizmetinin çalışmasını sağlaya gerekli Abap nesneleri oluşturur
+-Hizmetin işlevsel hale gelmesi için gerekl olan sınıflar, meotlar ve servis tanımları gibi nesneleri içerir.
+
+Service Maintenance
+
+Service Maintenance, OData hizmetinin SAP NetWeaver Gatewy üzerinde yönetilesini sağlar. Bu aşamada hizmeti aktive edebilir,sistemlere dağıtabiir ve bakımlarını yaabilirsiniz.
+
+-OData hizmetini SAP NetWeaver Gateway üzerinde yönetmenizi sağlar.
+-Hizmeti aktiv etme, sistemlere dağıtma ve bakı işlemlerini gerçekleştirmenizi sağlar.
+
+ODATA Veri Modelleme Yaklaşımları
+
+DDIC Structure
+
+DDIC(Data Dictionary) yapıarı, SAP veri modellerinin temel taşlarıdır. OData hizmetlerinde, mevut verisözlüğü yapıları kullanılabilir.
+
+-SAP sisteminde zaten tanımlanış olan veri modellerini(tablolar,yapılar) kullanarak hızlı ve tutarlı b,r şekilde OData hizmetleri oluşturmak için kullanılır.
+-Veri doğrulama ve veri tileri otomatik olaak belirlenir,bu da veri tutarlılığnı artırır.
+
+Data Model from File 
+Veri modelinin bir dosyadan yüklenmesi, OData hizmetleri için veri modelinin harici bir dosyadan içer aktarılması yöntemidir.
+
+-Harici sistemlerden veya başka kaynaklardan veri modellerini SAP'ye taşımak için kullanılır.
+-XML veya JSON gibi formatlarda tanımlanmış veri modellerini SAP OData hizmeti olarak içe aktarmak.
+
+RFC/BOR Interface
+
+RFC(Remote Function Call) ve BOR(Business Object Repository) arayüzleri, SAP'nin uzaktan çağrılabilir fonksiyonlarını ve iş nesnelerini temsil eder.
+
+-Mevcur RFC işlev modüllerini veya BOR nesnelerini OData hizmetleri olarak kullanmak için
+-SAP 'nin iş mantığını dış dünyaya açmak için kullanılır.
+
+SEARCH HELP
+
+Arama yardımı, kullanıcıların belirli alanlar için mevcut verileri aramalarına ve seçim yapmalarına olanak tanıyan SAP özelliğidir.
+
+-Kullanıcıların belirli veri kümesi içinden seçim yapabilmesi için kullanılır.
+-Kullanıcı deneyimini iyileştirmek ve veri gitiş

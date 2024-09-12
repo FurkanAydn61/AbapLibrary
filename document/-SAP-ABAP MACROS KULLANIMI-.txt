@@ -1,0 +1,21 @@
+-SAP-ABAP MACROS KULLANIMI-
+
+Makrolar, ABAP programlamada kodun tekrarını önlemek, kodun okunabilirliğini arttırmak ve bakımını kolaylaştırmak için güçlü bir araçtır.Özellikle sıkça tekrarlanan kod parçacıklarını tek bir yerde tanımlayarak bakımını kolaylaştırmak ve hataları minimize etmek için makrolar kullanılır.
+
+
+
+Example Code:
+
+DEFINE calculate_discount.
+  lv_discount = ( &1 * &2 ) / 100.
+END-OF-DEFINITION.
+
+
+PARAMETERS: p_val1 TYPE i,
+            p_val2 TYPE i.
+
+DATA: lv_discount TYPE i.
+
+calculate_discount p_val1 p_val2.
+
+WRITE: / 'İndirim:', lv_discount.

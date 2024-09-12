@@ -1,0 +1,86 @@
+-SAP-ABAP Internal Table, Standard Table, Sorted Table, Hash Table Kullanımı-
+
+<-Internal Table-> Abap programları içinde geçici olarak verileri depolamak ve işlemek için kullanılan bir veri yapısıdır. Veritabanı tablolarından alınan veya hesaplamalar sonucu elde edilen veriler, program yürütme süresince internal table'larda saklanır.
+
+<-Standard Table->
+- Verilerin ekleme sırasına göre depolandığı ve indekslerle erişildiği bir tablo türüdür.
+-Erişim: Erişim sıralı tarama ile yapılır; yani belirli bir değeri bulmak için tablo baştan sona taranır.
+-Performans Küçük veri kümeleri için uygundur. Büyük veri kümelerinde erişim süresi uzar.
+-Kullanım Alanları: Küçük ve orta büyüklükteki veri kümeler, üzerinde işlemler yapılırken kullanılır.
+
+<- Sorted Table ->
+-Verilerin belirli bir sıralama düzenine göre saklandığı bir tablo türüdür. Ekleme işlemi sırasında veri belirli bir sıraya göre yerleştirilir.
+-Erişim: Binary Search(ikili arama) kullanılarak hızlı bir şekilde erişilir.
+-Performans: Sıralı arama ve ekleme işlemleri optimize edilmiştir, bu nedenle belirli bir düzeni koruyan büyük veri kümelerinde etkilidir.
+-Kullanım Alanları: Büyük veri kümelerinde, sıralı arama ve sıralı ekleme gerektiren durumlarda kullanılır.
+
+-Binary Search Nedir?-
+
+Bilgisayar bilimlerinde bir bilgi kaynağı veya veri yapısı üzerinde problemi her adımda iki parçaya bölerek yapılan arama algoritmasının ismidir. Bu anlamda bazı kaynaklarda bölerek arama olarak da geçmektedir.
+
+Algoritmanın her durumda çalışması aşağıdaki şekildedir.
+*Problemlerde aranacak uzayın tam ortasına bak
+*Şayet aranan değer bulunduysa git 
+*Şayet bakılan değer aranan değerden büyükse arama işlemini problem uzayının küçük elemanlarından devam ettir
+*Şayet bakılan değer aranan değerden küçükse arama işlemini problem uzayının büyük elemanlarında devam ettir.
+*Şayet bakılan aralık 1 veya daha küçükse aranan değer bulunamadı olarak bitir.
+
+<- Hashed Table ->
+-Verilerin hash algoritması kullanılarak depolandığı bir tablo türüdür. Anahtar değere göre doğrudan erişim sağlar.
+-Erişim: Anahtara dayalı hızlı erişim sağlar; veriye erişim süresi sabittir.
+-Performans: Çok büyük veri kümeleri için uygundur. Erişim hızı sabit olduğu için performans açısından oldukça etkilidir.
+-Kullanım Alanları: Anahtara göre hızlı ve doğrudan erişim gereken büyük veri kümelerinde kullanılır
+
+
+FARKLILIKLAR:
+
+1.Erişim Yöntemi:
+
+-Standard Table: Sıralı tarama(linear search)
+-Sorted Table: Binary Search 
+-Hashed Table: Hashing
+
+2.Ekleme ve Güncelleme:
+
+-Standard Table: Veriler ekleme sırasına göre depolanır.
+-Sorted Table: Veriler belirli bir sıraya göre eklenir ve saklanır.
+-Hashed Table: Anahtar değere göre yerleştirilir.
+
+3.Performans:
+
+-Standard Table : Küçük veri kümeleri için uygundur, büyük veri kümelerinde yavaştır
+-Sorted Table: Büyük veri kümeleri için uygun, sıralı işlemler gerektiren durumlarda performanslıdır.
+-Hashed Table: Çok büyük veri kümelerinde en iyi performansı sağlar, sabit erişim süresi ile öne çıkar.
+
+
+  Sonuç olarak standard table küçük veri kümeleri için uygundur, sorted table büyük ve sıralı işlemler gerektiren veri kümeleri için idealdir, ve hashed table büyük veri kümeleri üzerinde hızlı erişim gerektiren durumlar için en iyi performansı sağlar.
+
+
+Example Code:
+
+DATA: lt_standard TYPE STANDARD TABLE OF mara,
+      ls_mara TYPE mara.
+
+SELECT * FROM mara INTO TABLE lt_standard.
+
+  LOOP AT lt_standard INTO ls_mara.
+    WRITE: / ls_mara-matnr, ls_mara-matkl.
+  ENDLOOP.
+
+DATA: lt_sorted TYPE SORTED TABLE OF mara WITH UNIQUE KEY matnr,
+      ls_mara TYPE mara.
+
+SELECT * FROM mara INTO TABLE lt_sorted.
+  READ TABLE lt_sorted WITH KEY matnr = 'ST000001' INTO ls_mara.
+  IF sy-subrc =  0 .
+    WRITE: / ls_mara-ernam.
+  ENDIF.
+
+DATA: lt_hashed TYPE HASHED TABLE OF mara WITH UNIQUE KEY matnr,
+      ls_mara TYPE mara.
+
+SELECT * FROM mara INTO TABLE lt_hashed.
+  READ TABLE lt_hashed WITH KEY matnr = 'ST000001' INTO ls_mara.
+  IF sy-subrc = 0.
+    WRITE: / ls_mara-ernam.
+  ENDIF.

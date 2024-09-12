@@ -1,0 +1,11 @@
+-SAP FTP VE SFTP-
+FTP ve SFTP, bilgisayar ağları üzerinden dosya transferi yapmak için kullanılan protokollerdir.
+-FTP-
+Dosya transferi için kullanılan eski ve yaygın bir protokoldür.Genellikle dahili ağlarda vea güvenliğin öncelikl olmadığı ortamlarda kullanılır. Standard olarak ,kontrol bağlantısı için 21 numaralı port kullanılabilir.
+
+-SFTP-
+ SFTP,FTP' ye göre dhaa güvenli bir osya trnseri protokolüdür ve SSH protokolü zerinden çalışır.üvenli dosya transferi gerektiren ortamlarda yaygın olarak kullanılır.Genellikle 22 numaralı port üzerinden çalışır.
+
+Sonuç olarak FTP güvenliksiz eski bir protokoldür.
+SFTP,SSH protokolü üzerine kurulu bir protoko.Tek bir bağlantı kllanır ve tüm veri transferleri şifrelenir.
+Aralarındaki en büyük fark güvenlik seviyeleridir.

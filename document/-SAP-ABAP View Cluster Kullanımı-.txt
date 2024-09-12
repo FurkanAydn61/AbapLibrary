@@ -1,0 +1,7 @@
+-SAP-ABAP View Cluster Kullanımı-
+ 
+View cluster, birden fazla ilişkilendirilmiş tabloyu bir araya getiren ve kullanıcının bu tablolar üzerinde bakım yapmasını kolaylaştıran bir yapıdır. View cluster, verilerin tutarlı bir şekilde yönetilmesini ve kullanıcıların karmaşık veri yapıları ile çalışırken daha kolay bir deneyim yaşamasını sağlar. SAP view cluster, ilişkili veritabanı tablolarını tek bir yapı altında toplayarak veri yönetimini basitleştirir ve veri tutarlılığını sağlar. Hiyerarşik yapı ve merkezi bakım özellikleri ile kullanıcıların veri giriş ve güncellemelerini daha hızlı ve hatasız yapmalarını sağlar. Bu özellikle karmaşık veri modelleri ile çalışırken büyük avantaj sağlar.
+
+-> SE54 işlem kodu ile View Cluster bakım ekranına gidilir
+->Cluster seçeneği seçilir ve yeni bir View Cluster adı verilir 
+->Ana tablo ve alt tablolara ilişkin detaylar girilir ve ilişkiler tanımlanır.

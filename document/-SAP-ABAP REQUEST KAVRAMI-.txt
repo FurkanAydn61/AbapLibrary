@@ -1,0 +1,7 @@
+-SAP-ABAP REQUEST KAVRAMI-
+
+Sap Abap'ta 'request '(taşıma talebi veya değişiklik talebi), sistemde yapılan değişikliklerin organize edilmesi, izlenmesi ve başka sistemlere taşınması için kullanılan bir kavramdır. SAP taşıma talepleri, geliştiricilerin ve sistem yöneticilerinin kod ve yapılandırma değişikliklerini yönetmesine olanak tanır. Bu değişiklikler, genellikle geliştirme sisteminde yapılır ve ardından test veya canlı sisteme taşınır.
+
+-Customizing Request: Sistem ayarları ve yapılandırma değişiklerini taşımak için kullanılır.
+-Workbench Request: Abap geliştirmeleri, programlar, fonksiyon modülleri ve diğer geliştirme nesnelerini taşımak için kullanılır.
+-Transpory of Copies: Belirli bir

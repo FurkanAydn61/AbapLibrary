@@ -1,0 +1,34 @@
+-SAP-ABAP OO ME KEYWORD-
+
+SAP ABAP'ta 'me' anahtar kelimesi, nesne yönelimli programlamada kullanılan ve mevcut sınıfın örneğini temsil eden bir referanstır. 'me', sınıfın içerisindeki niteliklere ve yöntemlere erişim sağlamak için kullanılır.
+
+'me' anahtar kelimesi, sınıfın içsel işleyişini yönetmek ve nesne yönelimli programlamada temiz ve modüler kod yazmak için kritik bir rol oynar.
+
+Örnek Kod: 
+
+REPORT zfkn_on_me_keyword_oo_abap.
+
+CLASS lcl_example DEFINITION.
+    PUBLIC SECTION.
+    METHODS: set_value IMPORTING iv_value TYPE i,
+             display_value.
+    PRIVATE SECTION.
+    DATA: my_value TYPE i.
+  ENDCLASS.
+
+  CLASS lcl_example IMPLEMENTATION.
+      METHOD set_value.
+        me->my_value = iv_value.
+        ENDMETHOD.
+
+      METHOD display_value.
+        WRITE: / me->my_value.
+        ENDMETHOD.
+    ENDCLASS.
+
+START-OF-SELECTION.
+
+DATA: lo_example TYPE REF TO lcl_example.
+    CREATE OBJECT lo_example.
+    lo_example->set_value( iv_value = 100 ).
+    lo_example->display_value( ).

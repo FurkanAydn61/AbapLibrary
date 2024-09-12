@@ -1,0 +1,33 @@
+-SAP-ABAP IDOC KULLANIMI-
+
+SAP IDoc (Intermediate Document), SAP sistemlerinde veri alışverişini ve entegrasyonunu sağlayan bir veri formatıdır. IDoc'lar, SAP sistemler ve SAP dışı sistemler arasında veri iletimini standardize etmek için kullanılır. IDoc'lar, verilerin elektronik olarak iletilmesi, işlenmesi ve depolanması amacıyla kullanılır ve genellikle iş süreçlerinin otomasyonu için kritik öneme sahiptir. 
+
+IDoc Ne için Kullanılır? 
+
+Veri Alışverişi: IDoc'lar, SAP sistemleri arasında veya SAP ile diğer sistemler arasında veri alışverişini yapmak için kullanılır. 
+
+Entegrasyon: IDoc'lar, farklı sistemlerin entegrasyonunu sağlamak için kullanılır. Bu, birden fazla SAP sistemi arasında veri entegrasyonu ve SAP sistemleri ile diğer ERP,CRM veya özel uygulamalar arasında veri entegrasyonunu içerebilir.
+
+İş Süreci Otomasyonu
+EDI
+
+Sonuç olarak IDoc'lar, SAP sistemlerinde veri alışverişini ve entegrasyonu için güçlü ve esnek bir çözüm sunar. İş süreçlerinin otomasyonu, sistem entegrasyonu ve veri yönetimi için kritik bir bileşendir.
+
+İki temel kategoriye ayrılır:
+
+-Outbound IDOC
+Sap sisteminden başka bir sisteme veri gönderimi için kullanılır. Bu, SAP sisteminden dışa doğru veri akışını temsil eder. Outbound IDoc'lar genellikle SAP iş süreçlerinden tetiklenir ve belirli bi iş olayına yanıt olarak oluşturulur, ardından hedef sisteme iletilir.
+
+Örnek Senaryo:
+Bir müşteri siparişi alındığında, bu sipariş bilgileri bir Outbound IDc olarak oluşturulabilir ve sevkiyat sistemine gönderilebilir.
+Faturalar,SAP sisteminden muhasebe veya ödeme sistemlerine Outbound IDoc aracılığıyla gönderilebilir.
+Depo yönetim sisteminden üretim sistemine envanter güncellemeleri gönderilebilir.
+
+
+-Inbound IDoc
+Başka bir sistemden SAP sistemine veri alımı için kullanılır. Bu SAP sistemine doğru veri akışını temsil eder. Inbound IDoc'lar genellikle dış sistemlerden gelen verilerin SAP sistemine entegrasyonu için kullanılır.
+
+Örnek Senaryolar:
+Müşteri siparişleri dış bir sistemden SAP sistemine Inbound IDoc olarak gönderilebilir ve SAP de sipariş oluşturulabilir.
+Ödeme Bilgileri: Banka ödeme bilgileri, muhasebe sisteine Inbound IDoc olarak alınabilir.
+Tedarikçi sisteminden gelen ürün bilgileri, SAP sisteminde güncellenebilir.

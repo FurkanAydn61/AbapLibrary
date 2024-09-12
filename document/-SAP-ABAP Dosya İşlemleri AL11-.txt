@@ -1,0 +1,44 @@
+-SAP-ABAP Dosya İşlemleri AL11-
+AL11, Sap'de dosya yönetimi ve sistem dosyalarına erişim için kullanılan transaction kodudur. AL11, SAP sisteminde tanımlı dosya dizinlerini görüntülemeyi ve yönetmeyi sağlar.
+AL11, SAP kullanıcılarının dosya yönetimini basit ve etkili bir şekilde yapmasını sağlayan güçlü bir araçtır. Dosya dizinlerini görüntülemek,dosyaları indirmek ve yüklemek gibi temel işlemeri kolaya gerçekleştirebilirsiniz.
+
+
+*Temel İşlevleri ve Özellikleri
+-Dosya dizinlerini görüntüleme:Tüm dosya dizinlerini listeler.
+-Dosya Listeleme:Belirli bir dizine erişerek,bu dizindeki tüm dosyaları listeleyebilirsiniz.
+-Dosya Görüntüleme:Lstelene  dosyaların içeriğini doğrudan AL11 üzerinden görüntüleyebilirsiniz.
+-Dosya İndirme:Dosyaları bilgisayarınıza indirebilirsiniz. Bu özellik, özellikle log dosyaları gibi önemli dosyaları almak için kullanışlıdır.
+-Dosya Yükleme: Bilgisayarınızdaki dosyalarıSAP sistemindeki belirli dizinlere yükleyebilirsiniz. Bu, SAP sistemi ile dış sistemler arasında veri alışverişi yaparken oldukça kullanışlıdır.
+
+AL11 ile Dosya İşlemlerinin Avanatjları:
+
+-Kolaylık ve Erişim
+-Veri Alışverişi
+-Merkezi Yönetim.
+
+
+Log Dosyası Nedir?
+
+Log dosyaları, SAP sistemnde gerçekleştirilen işlemlerin, olayların ve hata mesajlarının kaydedildiği dosyalardır. Log dosyaları, sistemin performansını izlemek ve olası sorunları tespit etmek için kullanılır.
+
+Türleri ve Kullanım Alanları
+-Application Server Log
+-System Log
+-Developer Trace
+-Security Audit Log
+**********************************************************************
+Log Dosyalarını Kullanımı
+
+Hata Ayıklama: Log dosyaları, uygulamalarda meydana gelen hataların nedeni belirlemek için kullanılır.
+
+Performans İzleme: Sistem performansını ve kaynak kullanımını izlemek için log dosyaları incelenir.
+
+Güvenlik İzleme: Güvenlik ihlallerini ve kullanıcı faaliyetlerini izlemek için log dosyaları kulanılır.
+**********************************************************************
+-SAP-ABAP OAER Dosya İşlemleri-
+SAP ABAP'ta OAER dosya işlemleri, SAP sisteminde belgeleri ve dosyaları ilişkilendirme ve yönetme sürecini ifade eder. Bu işlem, SAP sistemine ekli belgeleri ve dosyaları çeşitli SAP nesneleriyle bağlantısını sağlamak için önemlidir. OAER, SAP'nin Belge Yönetim Sistemi (DMS) ve ArchiveLink fonksiyonları ile birlikte kullanılarak, belgelerin etkin ve güvenli bir şekilde yönetilmesine yardımcı olur.
+
+-Merkezi Doküman Yönetimi: Tüm dokümanlar SAP sisteminde saklanır ve ilgili SAP nesneleriyle ilişkilendirilir.
+-Kolay Erişim: Hızlı ve kolay erişim sağla.
+-Güvenli ve Kontrol: SAP sistemindeki kullanıcı rolleri ve yetkileri, OAER ile ilişkilendirilen dokümanların güvenliğini ve erişim ontrolünü sağlar. 
+-İzlenebilirlik: Belge ve dosya ekleme güncelleme ve silme işlemleri izlenebilir ve kaydedilebilir. Bu , denetim ve uyumluluk gereksinimleri için önemlidir.
