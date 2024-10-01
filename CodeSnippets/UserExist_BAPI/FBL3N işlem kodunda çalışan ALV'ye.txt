@@ -1,0 +1,35 @@
+FBL3N işlem kodunda çalışan ALV'ye yeni alan ekleyip. Belge Türünün belge metnini yazdırdık.																										
+-BAPI ile Standarda Müdahale
+
+*SE18 'den FI_ITEMS_CH_DATA 'ya girdik.
+*Implementation'dan yeni bir interface oluşturduk.( Oluşturduktan sonra Display moduyla baktık).
+*Interface'in içindeki cange_items metoduyla,metodun içerisine gerekli kodları yazdık.
+
+  METHOD if_ex_fi_items_ch_data~change_items.
+*    LOOP AT ct_items REFERENCE INTO DATA(r_ct_items).
+*      IF r_ct_items->sgtxt IS INITIAL.
+*        r_ct_items->sgtxt = 'Metin Boş'.
+*      ENDIF.
+*    ENDLOOP.
+    LOOP AT ct_items REFERENCE INTO DATA(r_ct_items).
+      IF r_ct_items->blart EQ 'SA'.
+        SELECT SINGLE LTEXT
+          INTO r_ct_items->zfblg
+          FROM t003T
+          WHERE blart = r_ct_items->blart
+          AND spras   = sy-langu .
+        IF sy-subrc <> 0.
+          r_ct_items->zfblg = 'Belge türü bulunamadı'.
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+  ENDMETHOD.
+*Yıldız ile kapalı olan kod sgtxt 'si boş olan yerlere 'Metin Boş ifadesini yazdırmakta'.
+*Aşağıdaki kod ise rfpox tablosuna yeni bir alan ekledik. Bunu append structure ile yaptık.Daha sonra başka bir tablo olan rfposext ile ürettik yeni alanı.
+*SE37 'den üstteki Function Module 'e tıklayarak execute kısmından Test Sequences seçtik. Çıkan ekranda ilk satıra 'BAPI_ACC_DOCUMENT_POST' ikinci satıra 'BAPI_TRANSACTION_COMMIT' yazdık.
+*Gelen ekranda test data directory'e tıklayarak seçim yaptık.Ve çalıştırdık. Sorun çıkmadığını gördüğümüz zaman bir kez daha çalıştrdık ve bapi nesnemiz oluştu.
+
+
+
+*EK BİLGİ*
+REPOSXEXT teki blart'In tablosunu bulmak için domain'nine giderek value range kısmından value table'nı bulabilirz.Value table'ını açtık ama diyelim ki istediğimiz değer bulunmuyor. Üst menüden go to diyerek Text Table'ına ulaşabiliriz.
