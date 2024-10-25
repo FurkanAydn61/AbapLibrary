@@ -229,15 +229,15 @@ CLASS lcl_main IMPLEMENTATION.
 *&---------------------------------------------------------------------*
   METHOD process_data .
 
-*--------------------------------------------------------------------*
+*-------------------------------------------------------------------    
     DATA:
       lt_base       TYPE TABLE OF zmm_st108,
       lt_maint_temp LIKE gt_maint,
       ls_maint      LIKE LINE OF lt_maint_temp,
       lt_oto_temp   TYPE TABLE OF ty_oto,
       ls_oto_temp   LIKE LINE OF lt_oto_temp,
-      lv_col_pos    TYPE int4,
-      lv_fieldname  TYPE fieldname,
+      lv_col_pos    TYPE int4,"Alv 'nin sütun pozisyonlarını kontrol etmek için kullanılır
+      lv_fieldname  TYPE fieldname,"Alv deki alan adlarını oluşturmak için kullanılır"
       ls_mara       TYPE mara,
       ls_marc       TYPE marc.
 
@@ -245,20 +245,20 @@ CLASS lcl_main IMPLEMENTATION.
        <fv_symdp> TYPE any.
 
     lcl_main=>create_field_catalog( IMPORTING et_fcat = gt_fieldcat
-                                    CHANGING it_data = lt_base ).
+                                    CHANGING it_data = lt_base )."lt_base tabloyu baz alarak fieldcatalog oluşturuyor"
 
 
 
     lt_maint_temp[] = gt_maint[].
-    SORT lt_maint_temp BY symdp.
-    DELETE ADJACENT DUPLICATES FROM lt_maint_temp COMPARING symdp.
+    SORT lt_maint_temp BY symdp."SYMDP alanına göre sıralama yapılır.
+    DELETE ADJACENT DUPLICATES FROM lt_maint_temp COMPARING symdp."Sıralanan tabloda tekrar eden verileri siler.
 
     CLEAR lv_col_pos.
-    DESCRIBE TABLE gt_fieldcat LINES lv_col_pos.
-    LOOP AT lt_maint_temp INTO ls_maint.
+    DESCRIBE TABLE gt_fieldcat LINES lv_col_pos."gt_fieldcat tablosunun satır sayısı lv_col_pos'a atanır"
+    LOOP AT lt_maint_temp INTO ls_maint."Her bir satır için yeni bir alan oluşturulur
       ADD 1 TO lv_col_pos.
       CLEAR gs_fieldcat.
-      CONCATENATE 'SYMDP' ls_maint-symdp INTO gs_fieldcat-fieldname SEPARATED BY '_'.
+      CONCATENATE 'SYMDP' ls_maint-symdp INTO gs_fieldcat-fieldname SEPARATED BY '_'."SYMDP_ ile başlayıp Sayım deposunun numarasını yazacak örnek: SYMDP_4010
 
       gs_fieldcat-ref_table = 'ZMM_T185'.
       gs_fieldcat-ref_field = 'STK_FARK'.
@@ -290,13 +290,13 @@ CLASS lcl_main IMPLEMENTATION.
     IF sy-subrc <> 0.
       MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
-    ENDIF.
+    ENDIF."Dinamik bir tablo oluşturulur.go_data adlı veri göstergesine atanır.
 
 
-    ASSIGN go_data->* TO <ft_alv>.
+    ASSIGN go_data->* TO <ft_alv>. Oluşturulan dinamik tabloya atama yapılır
     CHECK sy-subrc EQ 0.
 
-    CREATE DATA go_data_line LIKE LINE OF <ft_alv>.
+    CREATE DATA go_data_line LIKE LINE OF <ft_alv>."Satırlar oluşturulmaya başlanır
     ASSIGN go_data_line->* TO <fs_alv>.
     CHECK sy-subrc EQ 0.
 
@@ -328,10 +328,10 @@ CLASS lcl_main IMPLEMENTATION.
       LOOP AT gt_oto INTO gs_oto WHERE werks = ls_oto_temp-werks
                                    AND matnr = ls_oto_temp-matnr
                                    AND frkdp = ls_oto_temp-frkdp.
-        CONCATENATE 'SYMDP' gs_oto-lgort INTO lv_fieldname SEPARATED BY '_'.
+        CONCATENATE 'SYMDP' gs_oto-lgort INTO lv_fieldname SEPARATED BY '_'."Dinamik alan adları oluşturulur.
         ASSIGN COMPONENT lv_fieldname OF STRUCTURE <fs_alv> TO <fv_symdp>.
         CHECK sy-subrc EQ 0.
-        <fv_symdp> = gs_oto-stk_fark.
+        <fv_symdp> = gs_oto-stk_fark."Eğer atama başarılı olursa ilgili bileşene stk_fark değeri atanır.
       ENDLOOP.
 
       APPEND <fs_alv> TO <ft_alv>.
