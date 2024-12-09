@@ -222,11 +222,104 @@ CLASS cl_event_receiver IMPLEMENTATION.
     ls_button-disabled = abap_false.
     APPEND ls_button_exc TO e_object->mt_toolbar.
 
+    DATA: ls_but_ex TYPE stb_button.
+    CLEAR: ls_but_ex.
+    ls_but_ex-function = 'UPL'.
+    ls_but_ex-text = 'Upload'.
+    ls_but_ex-quickinfo = 'Excel Upload'.
+    ls_but_ex-icon = '@J2@'.
+    ls_button_exc-disabled = abap_false.
+    APPEND ls_but_ex TO e_object->mt_toolbar.
+
+    CLEAR:ls_but_ex.
+    ls_but_ex-function = 'ADB'.
+    ls_but_ex-text     = 'Adobe'.
+    ls_but_ex-quickinfo = 'Adobe Form'.
+    ls_but_ex-icon = '@4W@'.
+    ls_but_ex-disabled = abap_false.
+    APPEND ls_but_ex TO e_object->mt_toolbar.
+
 
   ENDMETHOD.
 
   METHOD handle_user_command.
     CASE e_ucomm.
+      WHEN 'UPL'.
+        CALL SELECTION-SCREEN 100 STARTING AT 10 10.
+        DATA: lv_rc         TYPE i,
+              lt_file_table TYPE filetable,
+              ls_file_table TYPE file_table.
+        DATA(gr_log) = NEW cl_ptu_message( ).
+
+        IF gr_log->has_messages( ).
+          gr_log->display_log( iv_as_popup = abap_true
+                               iv_use_grid = abap_true ).
+
+        ENDIF.
+        DATA: lt_xtab     TYPE tsfixml,
+              lv_xcontent TYPE xstring.
+
+        FIELD-SYMBOLS: <lt_table> TYPE STANDARD TABLE.
+
+        cl_gui_frontend_services=>gui_upload(
+          EXPORTING
+            filename                = CONV #( p_file )
+            filetype                = 'BIN'
+          IMPORTING
+            filelength              = DATA(lv_filesize)
+          CHANGING
+            data_tab                = lt_xtab
+          EXCEPTIONS
+            OTHERS                  = 19
+        ).
+        IF sy-subrc EQ 0.
+          CALL FUNCTION 'SCMS_BINARY_TO_XSTRING'
+            EXPORTING
+              input_length = lv_filesize
+            IMPORTING
+              buffer       = lv_xcontent
+            TABLES
+              binary_tab   = lt_xtab
+            EXCEPTIONS
+              failed       = 1
+              OTHERS       = 2.
+        ENDIF.
+
+        IF sy-subrc <> 0.
+          gr_log->add_message_simple( ).
+          RETURN.
+        ENDIF.
+
+        TRY.
+            DATA(lo_excel) = NEW cl_fdt_xl_spreadsheet( document_name = CONV #( p_file )
+                                                        xdocument = lv_xcontent ).
+
+            lo_excel->if_fdt_doc_spreadsheet~get_worksheet_names( IMPORTING worksheet_names = DATA(lt_worksheets) ).
+
+            DATA(lr_table) = lo_excel->if_fdt_doc_spreadsheet~get_itab_from_worksheet( lt_worksheets[ 1 ] ).
+
+            ASSIGN lr_table->* TO <lt_table>.
+
+            gr_log->add_text( EXPORTING iv_type = 'I' iv_text = | Dosyadan { lines( <lt_table> ) - 1 } satır okundu | ).
+
+          CATCH cx_fdt_excel_core INTO DATA(lr_err).
+            gr_log->add_text( iv_type = 'E' iv_text = |Excel dosya yüklenemedi: { lr_err->get_text( ) }| ).
+            RETURN.
+        ENDTRY.
+
+*Yüklenen dosyanın içeriğini ekranda göster
+        cl_demo_output=>write( <lt_table> ).
+
+        DATA(lv_html) = cl_demo_output=>get( ).
+
+        cl_abap_browser=>show_html(
+        title        = |Dosya datalar|
+        size         = cl_abap_browser=>xlarge
+        html_string  = lv_html
+        context_menu = abap_true
+        check_html   = abap_false ).
+
+
       WHEN '&PDF'.
         DATA: gv_fname      TYPE rs38l_fnam,
               gs_control    TYPE ssfctrlop,
@@ -261,7 +354,11 @@ CLASS cl_event_receiver IMPLEMENTATION.
               workbook TYPE ole2_object,
               sheet    TYPE ole2_object,
               cell     TYPE ole2_object,
-              row      TYPE ole2_object.
+              row      TYPE ole2_object,
+              range    TYPE ole2_object,
+              font     TYPE ole2_object,
+              border   TYPE ole2_object,
+              column   TYPE ole2_object.
 
         IF p_list EQ 'D'.
           TYPES: BEGIN OF ty_t_excel_sample,
@@ -339,6 +436,15 @@ CLASS cl_event_receiver IMPLEMENTATION.
 
           CALL METHOD OF sheet 'Cells' = cell EXPORTING #1 = 1 #2 = 8.
           SET PROPERTY OF cell 'VALUE' = 'İskonto Tutarı'.
+
+          "Başlık verilerini renklendirdik"
+          CALL METHOD OF excel 'Range' = range EXPORTING #1 = 'A1' #2 = 'H1'.
+          GET PROPERTY OF range 'Font' = font.
+          SET PROPERTY OF font 'Bold'  = 1.
+          SET PROPERTY OF font 'ColorIndex' = 4.
+          SET PROPERTY OF font 'Size' = 12.
+
+          FREE OBJECT font.
 
 * Örnek veri ekle
           LOOP AT gt_cus_master INTO DATA(lv_cus_master).
@@ -434,8 +540,17 @@ CLASS cl_event_receiver IMPLEMENTATION.
           CALL METHOD OF sheet 'Cells' = cell EXPORTING #1 = lv_row #2 = 9.
           SET PROPERTY OF cell 'VALUE' = 'Tutar'.
 
+          "Başlık Verilerini renklendirdik"
+          CALL METHOD OF excel 'RANGE' = range EXPORTING #1 = 'A9' #2 = 'I9'.
+          GET PROPERTY OF range 'Font' = font.
+          SET PROPERTY OF font 'Bold'  = 1.
+          SET PROPERTY OF font 'ColorIndex' = 3.
+          SET PROPERTY OF font 'Size' = 12.
+          SET PROPERTY OF font 'Name' = 'Courier New'.
 
-          lv_row = lv_row + 1.
+          FREE OBJECT font.
+
+          lv_row  = lv_row + 1.
           LOOP AT gt_cus_detail INTO DATA(lv_cus_detail).
             ls_cus_exc-bukrs = lv_cus_detail-bukrs.
             ls_cus_exc-belnr = lv_cus_detail-belnr.
@@ -495,6 +610,9 @@ CLASS cl_event_receiver IMPLEMENTATION.
           CALL METHOD OF sheet 'Cells' = cell EXPORTING #1 = lv_row #2 = 9.
           SET PROPERTY OF cell 'VALUE' = lv_top_cus.
 
+"Sütun formatını autofit yapma"
+          CALL METHOD OF excel 'Columns' = column.
+          CALL METHOD OF column 'Autofit'.
 
           CALL METHOD OF excel 'SAVE'.
           CALL METHOD OF excel 'QUIT'.
@@ -733,7 +851,7 @@ CLASS cl_event_receiver IMPLEMENTATION.
           DATA(lv_top_wrbtr) = 0.
 
           LOOP AT lt_detail_excel INTO ls_detail_excel.
-           lv_top_wrbtr = lv_top_wrbtr + ls_detail_excel-wrbtr.
+            lv_top_wrbtr = lv_top_wrbtr + ls_detail_excel-wrbtr.
           ENDLOOP.
 
           CALL METHOD OF sheet 'Cells' = cell EXPORTING #1 = ls_row #2 = 7.
